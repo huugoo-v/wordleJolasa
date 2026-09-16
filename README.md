@@ -1,0 +1,8 @@
+# Wordle Jolasa (W.I.P)
+
+Joko bat Wordle klon bat estilokoa.
+
+## Deskribapena
+
+Proiektu honek Wordle jokoaren antzeko sistema bat garatzen du.
+
