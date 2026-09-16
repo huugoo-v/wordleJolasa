@@ -1,0 +1,77 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: white;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  min-height: 100vh;
+}
+
+.contenedor {
+  width: 200px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.juegoBloque {
+  width: 200px;
+
+  display: none;
+  flex-direction: column;
+}
+
+.teclado {
+  display: none;
+}
+
+label {
+  text-align: center;
+  font-size: 17px;
+  margin-bottom: 10px;
+}
+
+select {
+  width: 170px;
+  height: 44px;
+
+  margin: 0 auto 25px auto;
+
+  padding: 0 12px;
+
+  border: 1px solid #d1d5db;
+  border-radius: 7px;
+
+  background-color: white;
+
+  font-size: 16px;
+  color: #333;
+}
+
+#jugar {
+  width: 198px;
+  height: 44px;
+
+  margin-top: -2px;
+
+  border: none;
+  border-radius: 7px;
+
+  background-color: #8400ff;
+  color: white;
+
+  font-size: 17px;
+
+  cursor: pointer;
+}
+
+#jugar:hover {
+  background-color: #5605da;
+}
