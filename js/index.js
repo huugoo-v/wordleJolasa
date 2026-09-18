@@ -1,3 +1,5 @@
+"use strict";
+
 const botonJugar = document.getElementById("jugar");
 
 const contenedor = document.querySelector(".contenedor");
@@ -175,7 +177,7 @@ botonEnter.addEventListener("click", function () {
     palabraUsuario += casillas[i].textContent;
   }
 
-  // Pasar a mayúsculas
+  // Pasar a mayusculas
   palabraUsuario = palabraUsuario.toUpperCase();
 
   // Comprobar la palabra entera
@@ -196,12 +198,12 @@ botonEnter.addEventListener("click", function () {
   for (let i = 0; i < casillas.length; i++) {
     const letra = palabraUsuario[i];
 
-    // Letra y posición correctas
+    // Letra y posicion correctas
     if (letra === palabraSecreta[i]) {
       casillas[i].classList.add("correcta");
     }
 
-    // La letra existe pero está en otra posición
+    // La letra existe pero está en otra posicion
     else if (palabraSecreta.includes(letra)) {
       casillas[i].classList.add("presente");
     }
