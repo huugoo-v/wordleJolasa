@@ -8,8 +8,10 @@
   </head>
 
   <body>
+    <!-- PANTALLA INICIAL -->
     <div class="contenedor">
       <label for="intentos">Intentos</label>
+
       <select id="intentos">
         <option value="4">4</option>
         <option value="5" selected>5</option>
@@ -18,9 +20,10 @@
       </select>
 
       <label for="letras">Nº de letras</label>
+
       <select id="letras">
         <option value="4">4</option>
-        <option value="5" selected>5</option>
+        <option value="5"selected>5</option>
         <option value="6">6</option>
         <option value="7">7</option>
       </select>
@@ -28,12 +31,64 @@
       <button id="jugar">Jugar</button>
     </div>
 
+    <!-- JUEGO -->
     <div class="juegoBloque">
-      TESTING
+      <div class="tablero" id="tablero"></div>
     </div>
 
+    <!-- TECLADO -->
     <div class="teclado">
-      <button></button>
+      <!-- VOCALES CON TILDE -->
+      <div class="fila filaTildes">
+        <button>Á</button>
+        <button>É</button>
+        <button>Í</button>
+        <button>Ó</button>
+        <button>Ú</button>
+      </div>
+
+      <!-- PRIMERA FILA -->
+      <div class="fila">
+        <button>Q</button>
+        <button>W</button>
+        <button>E</button>
+        <button>R</button>
+        <button>T</button>
+        <button>Y</button>
+        <button>U</button>
+        <button>I</button>
+        <button>O</button>
+        <button>P</button>
+      </div>
+
+      <!-- SEGUNDA FILA -->
+      <div class="fila">
+        <button>A</button>
+        <button>S</button>
+        <button>D</button>
+        <button>F</button>
+        <button>G</button>
+        <button>H</button>
+        <button>J</button>
+        <button>K</button>
+        <button>L</button>
+        <button>Ñ</button>
+      </div>
+
+      <!-- TERCERA FILA -->
+      <div class="fila">
+        <button id="enter">Enter</button>
+
+        <button>Z</button>
+        <button>X</button>
+        <button>C</button>
+        <button>V</button>
+        <button>B</button>
+        <button>N</button>
+        <button>M</button>
+
+        <button id="del">DEL</button>
+      </div>
     </div>
 
     <script src="/js/index.js"></script>
