@@ -8,7 +8,6 @@
   </head>
 
   <body>
-    <!-- PANTALLA INICIAL -->
     <div class="contenedor">
       <label for="intentos">Intentos</label>
 
@@ -23,7 +22,7 @@
 
       <select id="letras">
         <option value="4">4</option>
-        <option value="5"selected>5</option>
+        <option value="5" selected>5</option>
         <option value="6">6</option>
         <option value="7">7</option>
       </select>
@@ -31,14 +30,12 @@
       <button id="jugar">Jugar</button>
     </div>
 
-    <!-- JUEGO -->
     <div class="juegoBloque">
       <div class="tablero" id="tablero"></div>
     </div>
 
     <!-- TECLADO -->
     <div class="teclado">
-      <!-- VOCALES CON TILDE -->
       <div class="fila filaTildes">
         <button>Á</button>
         <button>É</button>
@@ -47,7 +44,6 @@
         <button>Ú</button>
       </div>
 
-      <!-- PRIMERA FILA -->
       <div class="fila">
         <button>Q</button>
         <button>W</button>
@@ -61,7 +57,6 @@
         <button>P</button>
       </div>
 
-      <!-- SEGUNDA FILA -->
       <div class="fila">
         <button>A</button>
         <button>S</button>
@@ -75,7 +70,6 @@
         <button>Ñ</button>
       </div>
 
-      <!-- TERCERA FILA -->
       <div class="fila">
         <button id="enter">Enter</button>
 
@@ -88,6 +82,13 @@
         <button>M</button>
 
         <button id="del">DEL</button>
+      </div>
+    </div>
+
+    <div id="alerta" class="alerta">
+      <div class="alertaContenido">
+        <h2 id="mensajeAlerta"></h2>
+        <button id="reiniciar">Volver a jugar</button>
       </div>
     </div>
 

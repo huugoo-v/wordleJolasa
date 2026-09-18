@@ -9,6 +9,10 @@ const tablero = document.getElementById("tablero");
 const botonEnter = document.getElementById("enter");
 const botonDel = document.getElementById("del");
 
+const alerta = document.getElementById("alerta");
+const mensajeAlerta = document.getElementById("mensajeAlerta");
+const botonReiniciar = document.getElementById("reiniciar");
+
 // Palabra
 
 const palabraSecreta = "PERRO";
@@ -66,6 +70,29 @@ botonJugar.addEventListener("click", function () {
     tablero.appendChild(filaTablero);
   }
 });
+
+    // Boton para volver a jugar
+
+botonReiniciar.addEventListener("click", function () {
+
+    alerta.style.display = "none";
+
+    contenedor.style.display = "flex";
+    juegoBloque.style.display = "none";
+    teclado.style.display = "none";
+
+    tablero.innerHTML = "";
+
+    filaActual = 0;
+    letraActual = 0;
+});
+
+// Alerta
+
+function mostrarAlerta(mensaje) {
+  mensajeAlerta.textContent = mensaje;
+  alerta.style.display = "flex";
+}
 
 // Teclado
 
@@ -159,7 +186,7 @@ botonEnter.addEventListener("click", function () {
       casillas[i].classList.add("correcta");
     }
 
-    alert("¡Has acertado!");
+    mostrarAlerta("¡Has acertado!");
 
     return;
   }
@@ -193,6 +220,6 @@ botonEnter.addEventListener("click", function () {
 
   // Comprobar si se han acabado los intentos
   if (filaActual >= filas.length) {
-    alert("Has perdido. La palabra era " + palabraSecreta + ".");
+    mostrarAlerta("Has perdido. La palabra era " + palabraSecreta + ".");
   }
 });
