@@ -3,100 +3,138 @@
 const botonJugar = document.getElementById("jugar");
 
 const contenedor = document.querySelector(".contenedor");
+
 const juegoBloque = document.querySelector(".juegoBloque");
+
 const teclado = document.querySelector(".teclado");
 
 const tablero = document.getElementById("tablero");
 
 const botonEnter = document.getElementById("enter");
+
 const botonDel = document.getElementById("del");
 
 const alerta = document.getElementById("alerta");
+
 const mensajeAlerta = document.getElementById("mensajeAlerta");
+
 const botonReiniciar = document.getElementById("reiniciar");
 
-// Palabra
-
-const palabraSecreta = "PERRO";
-
-// Variables
+// VARIABLES
 
 let filaActual = 0;
 let letraActual = 0;
 
-// Boton "Jugar" index
+// PALABRA
+
+let palabra = "";
+
+// BOTÓN "JUGAR"
 
 botonJugar.addEventListener("click", function () {
   const intentos = parseInt(document.getElementById("intentos").value);
 
   const letras = parseInt(document.getElementById("letras").value);
 
-  // Comprobar que el número de letras coincide
-  if (letras !== palabraSecreta.length) {
-    alert("Para esta prueba selecciona " + palabraSecreta.length + " letras.");
+  // URL API
 
-    return;
-  }
+  const url =
+    "https://random-word-api.herokuapp.com/word?number=1&length=" +
+    letras +
+    "&diff=1&lang=es";
 
-  // Ocultar pantalla inicial
-  contenedor.style.display = "none";
+  fetch(url)
+    .then(function (respuesta) {
+      return respuesta.json();
+    })
 
-  // Mostrar juego
-  juegoBloque.style.display = "block";
+    .then(function (datos) {
+      // Guardar palabra
+      palabra = datos[0].toUpperCase();
 
-  // Mostrar teclado
-  teclado.style.display = "flex";
+      console.log("Palabra:", palabra);
+
+      // OCULTAR PANTALLA INICIAL
+
+      contenedor.style.display = "none";
+
+      // MOSTRAR JUEGO
+
+      juegoBloque.style.display = "block";
+
+      teclado.style.display = "flex";
+
+      // LIMPIAR TABLERO
+
+      tablero.innerHTML = "";
+
+      // REINICIAR POSICIONES
+
+      filaActual = 0;
+
+      letraActual = 0;
+
+      // CREAR TABLERO
+
+      for (let i = 0; i < intentos; i++) {
+        const filaTablero = document.createElement("div");
+
+        filaTablero.classList.add("filaTablero");
+
+        for (let j = 0; j < letras; j++) {
+          const casilla = document.createElement("div");
+
+          casilla.classList.add("casilla");
+
+          filaTablero.appendChild(casilla);
+        }
+
+        tablero.appendChild(filaTablero);
+      }
+    })
+
+    .catch(function (error) {
+      console.error("Error al obtener la palabra:", error);
+
+      alert("No se ha podido obtener una palabra.");
+    });
+});
+
+// FUNCIÓN PARA MOSTRAR ALERTA
+
+function mostrarAlerta(mensaje) {
+  mensajeAlerta.textContent = mensaje;
+
+  alerta.style.display = "flex";
+}
+
+// BOTÓN "VOLVER A JUGAR"
+
+botonReiniciar.addEventListener("click", function () {
+  // Ocultar alerta
+  alerta.style.display = "none";
+
+  // Mostrar pantalla inicial
+  contenedor.style.display = "flex";
+
+  // Ocultar juego
+  juegoBloque.style.display = "none";
+
+  // Ocultar teclado
+  teclado.style.display = "none";
 
   // Limpiar tablero
   tablero.innerHTML = "";
 
-  // Reiniciar posiciones
+  // Reiniciar variables
   filaActual = 0;
+
   letraActual = 0;
 
-  // Tablero Letras
-
-  for (let i = 0; i < intentos; i++) {
-    const filaTablero = document.createElement("div");
-
-    filaTablero.classList.add("filaTablero");
-
-    for (let j = 0; j < letras; j++) {
-      const casilla = document.createElement("div");
-
-      casilla.classList.add("casilla");
-
-      filaTablero.appendChild(casilla);
-    }
-
-    tablero.appendChild(filaTablero);
-  }
+  palabra = "";
 });
 
-    // Boton para volver a jugar
-
-botonReiniciar.addEventListener("click", function () {
-
-    alerta.style.display = "none";
-
-    contenedor.style.display = "flex";
-    juegoBloque.style.display = "none";
-    teclado.style.display = "none";
-
-    tablero.innerHTML = "";
-
-    filaActual = 0;
-    letraActual = 0;
-});
-
-// Alerta
-
-function mostrarAlerta(mensaje) {
-  mensajeAlerta.textContent = mensaje;
-  alerta.style.display = "flex";
-}
-
-// Teclado
+// TECLADO
 
 const teclas = document.querySelectorAll(".teclado button");
 
@@ -132,9 +170,10 @@ teclas.forEach(function (tecla) {
   });
 });
 
-// Boton Delete
+// BOTÓN DELETE
 
 botonDel.addEventListener("click", function () {
+  // Si no hay ninguna letra
   if (letraActual === 0) {
     return;
   }
@@ -146,11 +185,11 @@ botonDel.addEventListener("click", function () {
   // Retroceder
   letraActual--;
 
-  // Borrar
+  // Borrar letra
   casillas[letraActual].textContent = "";
 });
 
-// Boton Enter
+// BOTÓN ENTER
 
 botonEnter.addEventListener("click", function () {
   const filas = document.querySelectorAll(".filaTablero");
@@ -162,14 +201,15 @@ botonEnter.addEventListener("click", function () {
 
   const casillas = filas[filaActual].querySelectorAll(".casilla");
 
-  // Comprobar que la palabra está completa
+  // COMPROBAR PALABRA COMPLETA
+
   if (letraActual < casillas.length) {
     alert("Completa la palabra antes de pulsar Enter.");
 
     return;
   }
 
-  // Crear palabra
+  // CREAR PALABRA DEL USUARIO
 
   let palabraUsuario = "";
 
@@ -177,12 +217,12 @@ botonEnter.addEventListener("click", function () {
     palabraUsuario += casillas[i].textContent;
   }
 
-  // Pasar a mayusculas
+  // Pasar a mayúsculas
   palabraUsuario = palabraUsuario.toUpperCase();
 
-  // Comprobar la palabra entera
+  // COMPROBAR SI HA GANADO
 
-  if (palabraUsuario === palabraSecreta) {
+  if (palabraUsuario === palabra) {
     // Todas las letras verdes
     for (let i = 0; i < casillas.length; i++) {
       casillas[i].classList.add("correcta");
@@ -193,19 +233,39 @@ botonEnter.addEventListener("click", function () {
     return;
   }
 
-  // Comprobar las letras
+  // COMPROBAR LETRAS
+
+  // Copia de la palabra secreta
+  // para controlar letras repetidas
+  let letrasDisponibles = palabra.split("");
 
   for (let i = 0; i < casillas.length; i++) {
     const letra = palabraUsuario[i];
 
-    // Letra y posicion correctas
-    if (letra === palabraSecreta[i]) {
+    if (letra === palabra[i]) {
       casillas[i].classList.add("correcta");
+
+      // Marcar la letra como utilizada
+      letrasDisponibles[i] = null;
+    }
+  }
+
+  for (let i = 0; i < casillas.length; i++) {
+    // Si ya es correcta, no hacemos nada
+    if (casillas[i].classList.contains("correcta")) {
+      continue;
     }
 
-    // La letra existe pero está en otra posicion
-    else if (palabraSecreta.includes(letra)) {
+    const letra = palabraUsuario[i];
+
+    const posicion = letrasDisponibles.indexOf(letra);
+
+    // La letra existe en otra posición
+    if (posicion !== -1) {
       casillas[i].classList.add("presente");
+
+      // Consumir esa letra
+      letrasDisponibles[posicion] = null;
     }
 
     // La letra no existe
@@ -214,14 +274,11 @@ botonEnter.addEventListener("click", function () {
     }
   }
 
-  // Pasar intento
-
   filaActual++;
 
   letraActual = 0;
 
-  // Comprobar si se han acabado los intentos
   if (filaActual >= filas.length) {
-    mostrarAlerta("Has perdido. La palabra era " + palabraSecreta + ".");
+    mostrarAlerta("Has perdido. La palabra era " + palabra + ".");
   }
 });

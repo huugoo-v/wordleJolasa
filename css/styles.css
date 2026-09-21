@@ -58,6 +58,7 @@ body {
   height: 55px;
 
   border: 2px solid #d3d6da;
+  border-radius: 5px;
 
   display: flex;
   justify-content: center;
