@@ -14,7 +14,7 @@ Lehenengo orrian, bi aukera ikus ditzakegu: bata hitza asmatzeko izango dugun sa
 </p>
 
 <p align="center">
-  <img width="231" height="275" alt="Start" src="https://github.com/user-attachments/assets/dcb5d16d-465a-4c0d-bf07-5cbaff59a17f" />
+  <img width="231" height="275" alt="image" src="img/start.png" />
 </p>
 
 <p align="justify">
@@ -29,7 +29,7 @@ Funtzionamendua honako hau da:
 </p>
 
 <p align="center">
-<img width="625" height="705" alt="image" src="https://github.com/user-attachments/assets/01dfff2c-f5f2-454c-82f5-8e63c8d86ac5" />
+  <img width="625" height="705" alt="image" src="img/juego.png" />
 </p>
 
 <p align="justify">
@@ -37,5 +37,5 @@ Froga honen kasuan, hitza "BANDA" zen, hitza asmatzean honela ikusten da.
 </p>
 
 <p align="center">
-<img width="641" height="659" alt="image" src="https://github.com/user-attachments/assets/75da5240-b786-4e55-9e0f-d244890fcd99" />
+  <img width="641" height="659" alt="image" src="img/acierto.png" />
 </p>
