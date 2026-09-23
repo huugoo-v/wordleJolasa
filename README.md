@@ -1,4 +1,4 @@
-# Wordle Jolasa (W.I.P)
+# Wordle Jolasa
   
 ### Jokoa Wordle klon estilokoa.
 
@@ -33,7 +33,7 @@ Funtzionamendua honako hau da:
 </p>
 
 <p align="justify">
-Froga honen kasuan, hitza "BANDA" zen, hitza asmatzean honela ikusten da.
+Hitza asmatzean honela ikusten da.
 </p>
 
 <p align="center">
