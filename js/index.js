@@ -1,5 +1,7 @@
 "use strict";
 
+// elementos
+
 const botonJugar = document.getElementById("jugar");
 
 const contenedor = document.querySelector(".contenedor");
@@ -18,18 +20,25 @@ const alerta = document.getElementById("alerta");
 
 const mensajeAlerta = document.getElementById("mensajeAlerta");
 
+const historial = document.getElementById("historial");
+
 const botonReiniciar = document.getElementById("reiniciar");
 
-// VARIABLES
+// teclas
+
+const teclas = document.querySelectorAll(".teclado button");
+
+// variables
 
 let filaActual = 0;
-let letraActual = 0;
 
-// PALABRA
+let letraActual = 0;
 
 let palabra = "";
 
-// BOTÓN "JUGAR"
+let intentosRealizados = [];
+
+// boton jugar
 
 botonJugar.addEventListener("click", function () {
   const intentos = parseInt(document.getElementById("intentos").value);
@@ -49,32 +58,45 @@ botonJugar.addEventListener("click", function () {
     })
 
     .then(function (datos) {
-      // Guardar palabra
+      // guardar palabra
+
       palabra = datos[0].toUpperCase();
 
       console.log("Palabra:", palabra);
 
-      // OCULTAR PANTALLA INICIAL
+      // ocultar pantalla inicial
 
       contenedor.style.display = "none";
 
-      // MOSTRAR JUEGO
+      // mostrar juego
 
       juegoBloque.style.display = "block";
 
       teclado.style.display = "flex";
 
-      // LIMPIAR TABLERO
+      // limpiar tablero
 
       tablero.innerHTML = "";
 
-      // REINICIAR POSICIONES
+      // reiniciar variables
 
       filaActual = 0;
 
       letraActual = 0;
 
-      // CREAR TABLERO
+      intentosRealizados = [];
+
+      // limpiar colores teclado
+
+      teclas.forEach(function (tecla) {
+        tecla.classList.remove("correcta");
+
+        tecla.classList.remove("presente");
+
+        tecla.classList.remove("incorrecta");
+      });
+
+      // crear tablero
 
       for (let i = 0; i < intentos; i++) {
         const filaTablero = document.createElement("div");
@@ -100,7 +122,7 @@ botonJugar.addEventListener("click", function () {
     });
 });
 
-// FUNCIÓN PARA MOSTRAR ALERTA
+// mostrar alerta
 
 function mostrarAlerta(mensaje) {
   mensajeAlerta.textContent = mensaje;
@@ -108,72 +130,29 @@ function mostrarAlerta(mensaje) {
   alerta.style.display = "flex";
 }
 
-// BOTÓN "VOLVER A JUGAR"
+// escribir letra
 
-botonReiniciar.addEventListener("click", function () {
-  // Ocultar alerta
-  alerta.style.display = "none";
+function escribirLetra(letra) {
+  const filas = document.querySelectorAll(".filaTablero");
 
-  // Mostrar pantalla inicial
-  contenedor.style.display = "flex";
+  if (filaActual >= filas.length) {
+    return;
+  }
 
-  // Ocultar juego
-  juegoBloque.style.display = "none";
+  const casillas = filas[filaActual].querySelectorAll(".casilla");
 
-  // Ocultar teclado
-  teclado.style.display = "none";
+  if (letraActual >= casillas.length) {
+    return;
+  }
 
-  // Limpiar tablero
-  tablero.innerHTML = "";
+  casillas[letraActual].textContent = letra;
 
-  // Reiniciar variables
-  filaActual = 0;
+  letraActual++;
+}
 
-  letraActual = 0;
+// borrar letra
 
-  palabra = "";
-});
-
-// TECLADO
-
-const teclas = document.querySelectorAll(".teclado button");
-
-teclas.forEach(function (tecla) {
-  tecla.addEventListener("click", function () {
-    // Ignorar Enter y DEL
-    if (tecla.id === "enter" || tecla.id === "del") {
-      return;
-    }
-
-    const filas = document.querySelectorAll(".filaTablero");
-
-    // Comprobar si quedan intentos
-    if (filaActual >= filas.length) {
-      return;
-    }
-
-    const casillas = filas[filaActual].querySelectorAll(".casilla");
-
-    // Comprobar si la fila está llena
-    if (letraActual >= casillas.length) {
-      return;
-    }
-
-    // Obtener letra pulsada
-    const letra = tecla.textContent;
-
-    // Escribir letra
-    casillas[letraActual].textContent = letra;
-
-    // Pasar a la siguiente casilla
-    letraActual++;
-  });
-});
-
-// BOTÓN DELETE
-
-botonDel.addEventListener("click", function () {
-  // Si no hay ninguna letra
+function borrarLetra() {
   if (letraActual === 0) {
     return;
   }
@@ -182,26 +161,185 @@ botonDel.addEventListener("click", function () {
 
   const casillas = filas[filaActual].querySelectorAll(".casilla");
 
-  // Retroceder
   letraActual--;
 
-  // Borrar letra
   casillas[letraActual].textContent = "";
-});
+}
 
-// BOTÓN ENTER
+// buscar tecla
 
-botonEnter.addEventListener("click", function () {
+function buscarTecla(letra) {
+  let teclaEncontrada = null;
+
+  teclas.forEach(function (tecla) {
+    if (tecla.textContent.toUpperCase() === letra) {
+      teclaEncontrada = tecla;
+    }
+  });
+
+  return teclaEncontrada;
+}
+
+// actualizar teclado
+
+function actualizarTeclado(palabraUsuario) {
+  const letrasDisponibles = palabra.split("");
+
+  // letras correctas
+
+  for (let i = 0; i < palabra.length; i++) {
+    const letra = palabraUsuario[i];
+
+    const tecla = buscarTecla(letra);
+
+    if (tecla === null) {
+      continue;
+    }
+
+    if (letra === palabra[i]) {
+      tecla.classList.remove("presente");
+
+      tecla.classList.remove("incorrecta");
+
+      tecla.classList.add("correcta");
+
+      letrasDisponibles[i] = null;
+    }
+  }
+
+  // letras presentes o incorrectas
+
+  for (let i = 0; i < palabra.length; i++) {
+    const letra = palabraUsuario[i];
+
+    const tecla = buscarTecla(letra);
+
+    if (tecla === null) {
+      continue;
+    }
+
+    if (tecla.classList.contains("correcta")) {
+      continue;
+    }
+
+    const posicion = letrasDisponibles.indexOf(letra);
+
+    if (posicion !== -1) {
+      tecla.classList.remove("incorrecta");
+
+      tecla.classList.add("presente");
+
+      letrasDisponibles[posicion] = null;
+    } else {
+      if (!tecla.classList.contains("presente")) {
+        tecla.classList.add("incorrecta");
+      }
+    }
+  }
+}
+
+// guardar partida
+
+function guardarPartida(ganada) {
+  const partida = {
+    palabra: palabra,
+
+    intentos: intentosRealizados,
+
+    fecha: new Date().toLocaleString(),
+
+    resultado: ganada ? "Ganada" : "Perdida",
+  };
+
+  let partidas = JSON.parse(localStorage.getItem("partidasWordle")) || [];
+
+  partidas.unshift(partida);
+
+  partidas = partidas.slice(0, 10);
+
+  localStorage.setItem("partidasWordle", JSON.stringify(partidas));
+}
+
+// mostrar historial
+
+function mostrarHistorial() {
+  const partidas = JSON.parse(localStorage.getItem("partidasWordle")) || [];
+
+  historial.innerHTML = "";
+
+  if (partidas.length === 0) {
+    historial.innerHTML = "<p>No hay partidas anteriores.</p>";
+
+    return;
+  }
+
+  const titulo = document.createElement("h3");
+
+  titulo.textContent = "Últimas partidas";
+
+  historial.appendChild(titulo);
+
+  partidas.forEach(function (partida) {
+    const elemento = document.createElement("div");
+
+    elemento.classList.add("partida");
+
+    elemento.innerHTML =
+      "<strong>Fecha:</strong> " +
+      partida.fecha +
+      "<br><strong>Palabra:</strong> " +
+      partida.palabra +
+      "<br><strong>Intentos:</strong> " +
+      partida.intentos.join(", ") +
+      "<br><strong>Resultado:</strong> " +
+      partida.resultado;
+
+    historial.appendChild(elemento);
+  });
+}
+
+// terminar partida
+
+function terminarPartida(ganada) {
+  guardarPartida(ganada);
+
+  // ocultar tablero
+
+  juegoBloque.style.display = "none";
+
+  // ocultar teclado
+
+  teclado.style.display = "none";
+
+  // mostrar resultado
+
+  if (ganada) {
+    mensajeAlerta.textContent = "¡Has acertado!";
+  } else {
+    mensajeAlerta.textContent = "Has perdido. La palabra era " + palabra + ".";
+  }
+
+  // mostrar historial
+
+  mostrarHistorial();
+
+  // mostrar alerta
+
+  alerta.style.display = "flex";
+}
+
+// comprobar intento
+
+function comprobarIntento() {
   const filas = document.querySelectorAll(".filaTablero");
 
-  // Comprobar que quedan intentos
   if (filaActual >= filas.length) {
     return;
   }
 
   const casillas = filas[filaActual].querySelectorAll(".casilla");
 
-  // COMPROBAR PALABRA COMPLETA
+  // comprobar palabra completa
 
   if (letraActual < casillas.length) {
     alert("Completa la palabra antes de pulsar Enter.");
@@ -209,7 +347,7 @@ botonEnter.addEventListener("click", function () {
     return;
   }
 
-  // CREAR PALABRA DEL USUARIO
+  // crear palabra usuario
 
   let palabraUsuario = "";
 
@@ -217,27 +355,31 @@ botonEnter.addEventListener("click", function () {
     palabraUsuario += casillas[i].textContent;
   }
 
-  // Pasar a mayúsculas
   palabraUsuario = palabraUsuario.toUpperCase();
 
-  // COMPROBAR SI HA GANADO
+  // guardar intento
+
+  intentosRealizados.push(palabraUsuario);
+
+  // comprobar palabra correcta
 
   if (palabraUsuario === palabra) {
-    // Todas las letras verdes
     for (let i = 0; i < casillas.length; i++) {
       casillas[i].classList.add("correcta");
     }
 
-    mostrarAlerta("¡Has acertado!");
+    actualizarTeclado(palabraUsuario);
+
+    terminarPartida(true);
 
     return;
   }
 
-  // COMPROBAR LETRAS
+  // letras disponibles
 
-  // Copia de la palabra secreta
-  // para controlar letras repetidas
-  let letrasDisponibles = palabra.split("");
+  const letrasDisponibles = palabra.split("");
+
+  // letras correctas
 
   for (let i = 0; i < casillas.length; i++) {
     const letra = palabraUsuario[i];
@@ -245,13 +387,13 @@ botonEnter.addEventListener("click", function () {
     if (letra === palabra[i]) {
       casillas[i].classList.add("correcta");
 
-      // Marcar la letra como utilizada
       letrasDisponibles[i] = null;
     }
   }
 
+  // letras presentes o incorrectas
+
   for (let i = 0; i < casillas.length; i++) {
-    // Si ya es correcta, no hacemos nada
     if (casillas[i].classList.contains("correcta")) {
       continue;
     }
@@ -260,25 +402,134 @@ botonEnter.addEventListener("click", function () {
 
     const posicion = letrasDisponibles.indexOf(letra);
 
-    // La letra existe en otra posición
     if (posicion !== -1) {
       casillas[i].classList.add("presente");
 
-      // Consumir esa letra
       letrasDisponibles[posicion] = null;
-    }
-
-    // La letra no existe
-    else {
+    } else {
       casillas[i].classList.add("incorrecta");
     }
   }
+
+  // actualizar teclado
+
+  actualizarTeclado(palabraUsuario);
+
+  // siguiente fila
 
   filaActual++;
 
   letraActual = 0;
 
+  // comprobar derrota
+
   if (filaActual >= filas.length) {
-    mostrarAlerta("Has perdido. La palabra era " + palabra + ".");
+    terminarPartida(false);
   }
+}
+
+// teclado virtual
+
+teclas.forEach(function (tecla) {
+  tecla.addEventListener("click", function () {
+    if (tecla.id === "enter") {
+      comprobarIntento();
+
+      return;
+    }
+
+    if (tecla.id === "del") {
+      borrarLetra();
+
+      return;
+    }
+
+    const letra = tecla.textContent.toUpperCase();
+
+    escribirLetra(letra);
+  });
+});
+
+// teclado fisico
+
+document.addEventListener("keydown", function (event) {
+  if (juegoBloque.style.display !== "block") {
+    return;
+  }
+
+  const tecla = event.key.toUpperCase();
+
+  if (/^[A-ZÑÁÉÍÓÚÜ]$/.test(tecla)) {
+    escribirLetra(tecla);
+
+    return;
+  }
+
+  if (event.key === "Enter") {
+    comprobarIntento();
+
+    return;
+  }
+
+  if (event.key === "Backspace") {
+    borrarLetra();
+
+    return;
+  }
+});
+
+// boton enter
+
+botonEnter.addEventListener("click", function () {
+  comprobarIntento();
+});
+
+// boton delete
+
+botonDel.addEventListener("click", function () {
+  borrarLetra();
+});
+
+// boton reiniciar
+
+botonReiniciar.addEventListener("click", function () {
+  // ocultar alerta
+
+  alerta.style.display = "none";
+
+  // mostrar pantalla inicial
+
+  contenedor.style.display = "flex";
+
+  // ocultar juego
+
+  juegoBloque.style.display = "none";
+
+  // ocultar teclado
+
+  teclado.style.display = "none";
+
+  // limpiar tablero
+
+  tablero.innerHTML = "";
+
+  // reiniciar variables
+
+  filaActual = 0;
+
+  letraActual = 0;
+
+  palabra = "";
+
+  intentosRealizados = [];
+
+  // limpiar teclado
+
+  teclas.forEach(function (tecla) {
+    tecla.classList.remove("correcta");
+
+    tecla.classList.remove("presente");
+
+    tecla.classList.remove("incorrecta");
+  });
 });

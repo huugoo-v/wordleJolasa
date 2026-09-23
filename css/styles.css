@@ -132,6 +132,23 @@ body {
   margin-bottom: 5px;
 }
 
+/* COLORES TECLADO */
+
+.teclado .correcta {
+  background-color: #6aaa64 !important;
+  color: white;
+}
+
+.teclado .presente {
+  background-color: #c9b458 !important;
+  color: white;
+}
+
+.teclado .incorrecta {
+  background-color: #787c7e !important;
+  color: white;
+}
+
 /* ALERTA CUSTOM */
 
 .alerta {
@@ -227,4 +244,38 @@ select {
 
 #jugar:hover {
   background-color: #5605da;
+}
+
+/* HISTORIAL */
+
+#historial {
+  max-height: 350px;
+  overflow-y: auto;
+  margin-top: 20px;
+  text-align: left;
+}
+
+.partida {
+  border: 1px solid #d3d6da;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+/* COLORES TECLADO */
+
+.teclado button.correcta {
+  background-color: #6aaa64 !important;
+  color: white;
+}
+
+.teclado button.presente {
+  background-color: #c9b458 !important;
+  color: white;
+}
+
+.teclado button.incorrecta {
+  background-color: #787c7e !important;
+  color: white;
 }
