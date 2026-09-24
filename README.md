@@ -33,9 +33,9 @@ Funtzionamendua honako hau da:
 </p>
 
 <p align="justify">
-Hitza asmatzean honela ikusten da.
+Hitza asmatzean honela ikusten da. Zure azken 10 partiden emaitzak eta saiakerak gordetzen dira.
 </p>
 
 <p align="center">
-  <img width="641" height="659" alt="image" src="img/acierto.png" />
+  <img width="641" height="659" alt="image" src="img/intentos.png" />
 </p>
