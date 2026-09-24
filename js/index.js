@@ -314,7 +314,7 @@ function terminarPartida(ganada) {
   // mostrar resultado
 
   if (ganada) {
-    mensajeAlerta.textContent = "¡Has acertado!";
+    mensajeAlerta.textContent = "¡Has acertado! La palabra era " + palabra + ".";
   } else {
     mensajeAlerta.textContent = "Has perdido. La palabra era " + palabra + ".";
   }
